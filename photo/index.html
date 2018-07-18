@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<!-- htmlcs-disable nest -->
+<html>
+<!-- htmlcs-enable nest -->
+
+<head>
+    <meta charset="UTF-8">
+    <title>来自小度机器人的分享</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+    html {
+        height: 100%;
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        font-family: Lantinghei SC, Microsoft Yahei, Arial;
+        height: 100%;
+        position: relative;
+        background-image: url(img/bg.png);
+        background-size: 100% auto;
+    }
+    .imgs {
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 0;
+        margin: auto;
+        /*position: absolute;*/
+        /*height: 42.94%;*/
+        /*width: 73%;*/
+        /*left: 14%;*/
+        /*top: 22.6%;*/
+    }
+    .hide-img {
+        display: none;
+    }
+
+    .content {
+        padding-top: 90px;
+    }
+
+    .frame.content {
+        padding-top: 70px;
+    }
+
+    .photo-center {
+        margin: 0 5px 8px;
+        position: relative;
+        text-align: center;
+    }
+    .photo-center.no {
+        background: #fff url(img/photo_by_xiaodu.png) center 93% no-repeat!important;
+        background-size: 132px auto!important;
+    }
+    .photo-center.no .imgs {
+        width: 94.3%;
+        height: 80.7%;
+    }
+    .photo-wihte {
+        padding-top: 3%;
+        width: 100%;
+        height: 100%;
+    }
+    .photo-center.no .robot-img {
+        width: 100%;
+        height: 100%;
+    }
+    .frame .photo-center {
+        padding: 0;
+    }
+    .canvas-img.heightpr {
+        height: 100%;
+    }
+    .canvas-img.widthper {
+        width: 100%;
+    }
+    .bottom-desc {
+        text-align: right;
+        margin-bottom: 50px;
+    }
+    .photo-save {
+        color: #999;
+        font-size: 12px;
+        padding-right: 8px;
+    }
+    .photo-save.no {
+        color: #c2c2c2;
+    }
+    .check-box {
+        text-align: center;
+        margin-top: 33px;
+    }
+    .use-frame {
+        margin-top: -10px;
+        padding: 10px;
+        font-size: 17px;
+        color: #999;
+        font-family: Lantinghei SC, Microsoft Yahei, Arial;
+        display: inline-block;
+    }
+    .use-frame.no {
+        color: #c2c2c2;
+    }
+    .usef {
+        margin-right: 52px;
+    }
+    .radio {
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    .yes.usef .radio {
+        background: url(img/useSet.png) no-repeat;
+        background-size: contain;
+    }
+
+    .no.usef .radio {
+        background: url(img/use.png) no-repeat;
+        background-size: contain;
+    }
+    .yes.goodhand .radio {
+        background: url(img/changeSet.png) no-repeat;
+        background-size: contain;
+    }
+
+    .no.goodhand .radio {
+        background: url(img/change.png) no-repeat;
+        background-size: contain;
+    }
+    .robot-img {
+        width: 100%;
+        height: 100%;
+    }
+    .photo-center .fram1 {
+        height: 58.94%;
+        width: 100%;
+        left: 0%;
+        top: 16.2%;
+    }
+    .photo-center .fram2 {
+        height: 54.8%;
+        width: 96.9%;
+        left: 1.7%;
+        top: 22.4%;
+    }
+    .photo-center .fram3 {
+        height: 52.3%;
+        width: 89.5%;
+        left: 5.3%;
+        top: 28%;
+    }
+    .photo-center .fram4 {
+        height: 59%;
+        width: 100%;
+        left: 0%;
+        top: 28.1%;
+    }
+    .photo-center .fram5 {
+        height: 54.94%;
+        width: 94.3%;
+        left: 2.6%;
+        top: 32.6%;
+    }
+    </style>
+</head>
+
+<body>
+    <img src="http://g.hiphotos.baidu.com/durobot_service/pic/item/3ac79f3df8dcd1009426467e788b4710b9122f32.jpg" class="hide-img">
+    <div>
+        <div class="content">
+            <!-- <div class="content frame"> -->
+            <div class="photo-center no">
+                <img id="canvas-img" class="canvas-img">
+                <div class="photo-wihte">
+                    <div class="imgs">
+                        <img id="robot-img" class="robot-img">
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-desc">
+                <div class="photo-save no">长按保存图片</div>
+                <div class="check-box">
+                    <div class="use-frame yes usef">
+                        <div class="radio"></div>使用相框保存
+                    </div>
+                    <div class="use-frame yes goodhand">
+                        <div class="radio"></div>换相框
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            // url上拼的参数对象
+            var urlArgs = getUrlArgs();
+            var imageImage = document.getElementById('robot-img');
+            var canvasImage = document.getElementById('canvas-img');
+            var frame = document.getElementsByClassName('photo-center')[0];
+            var photoWihte = document.getElementsByClassName('photo-wihte')[0];
+            var usef = document.getElementsByClassName('usef')[0];
+            var goodhand = document.getElementsByClassName('goodhand')[0];
+            var photoSave = document.getElementsByClassName('photo-save')[0];
+            var buttomDesc = document.getElementsByClassName('bottom-desc')[0];
+            var framnums = {
+                YUNYING: 1,
+                PM: 2,
+                QA: 3,
+                RD: 4,
+                UE: 5
+            };
+            var randomImg = urlArgs.position_tag;
+            // 获取机器人的位置
+            var position = urlArgs.pd;
+            console.log(urlArgs);
+            var frameIndex;
+            if (randomImg === '' || randomImg === undefined) {
+                randomImg = urlArgs.randomImg;
+                frameIndex = randomImg % 10 + 1;
+            } else {
+                frameIndex = framnums[randomImg];
+            }
+            var height = frame.offsetWidth;
+            frame.style.height = parseInt(height * 244 / 370, 10) + 'px';
+            // 0：不使用相框  1：使用相框
+            var useFrame = 1;
+            useFram();
+            if (urlArgs && urlArgs.pic) {
+                var filling = new Image();
+                filling.onload = function () {
+                    imageImage.src = filling.src;
+                };
+                filling.src = atob(decodeURIComponent(urlArgs.pic));
+            };
+            // 防止ontouchend事件失效
+            usef.ontouchstart = function (e) {
+                e.preventDefault();
+            };
+            // 使用相框 单选按钮
+            usef.ontouchend = function () {
+                useFram();
+            };
+            // 防止ontouchend事件失效
+            goodhand.ontouchstart = function (e) {
+                e.preventDefault();
+            };
+            // 手气不错 单选按钮
+            var arr = [frameIndex];
+            goodhand.ontouchend = function () {
+                if (useFrame === 0) {
+                    var ram;
+                    ram = getRam(1, 10);
+                    while ((ram === frameIndex || arr.indexOf(ram) > -1) && arr.length !== 10) {
+                        ram = getRam(1, 10);
+                    }
+                    if (arr.length === 10) {
+                        while (ram === frameIndex) {
+                            ram = getRam(1, 10);
+                        }
+                        arr = [];
+                    }
+                    arr.push(ram);
+                    frameIndex = ram;
+                    canvasImage.style.display = 'none';
+                    showFrame(frameIndex);
+                }
+            };
+            // 相框使用判断
+            function useFram() {
+                if (urlArgs.pd === 'xiongan') {
+                    useFrame = 0;
+                    usef.className = 'use-frame no usef';
+                    goodhand.className = 'use-frame no goodhand';
+                    photoSave.className = 'photo-save no';
+                    frame.className = 'photo-center no';
+                    imageImage.style.display = 'block';
+                    canvasImage.style.display = 'none';
+                    photoWihte.style.display = 'block';
+                    buttomDesc.style.display = 'none';
+                    frame.style.height = parseInt(height * 244 / 370, 10) + 'px';
+                } else {
+                    if (useFrame === 0) {
+                        useFrame = 1;
+                        usef.className = 'use-frame no usef';
+                        goodhand.className = 'use-frame no goodhand';
+                        photoSave.className = 'photo-save no';
+                        frame.className = 'photo-center no';
+                        imageImage.style.display = 'block';
+                        canvasImage.style.display = 'none';
+                        photoWihte.style.display = 'block';
+                        frame.style.height = parseInt(height * 244 / 370, 10) + 'px';
+                    } else {
+                        useFrame = 0;
+                        usef.className = 'use-frame yes usef';
+                        goodhand.className = 'use-frame yes goodhand';
+                        photoSave.className = 'photo-save';
+                        frame.className = 'photo-center';
+                        imageImage.style.display = 'none';
+                        photoWihte.style.display = 'none';
+                        canvasImage.style.display = 'inline-block';
+                        frame.style.height = parseInt(height * 708 / 740, 10) + 'px';
+                        if (frameIndex === 9 || frameIndex === 8 || frameIndex === 10) {
+                            canvasImage.className = 'canvas-img widthper';
+                        } else {
+                            canvasImage.className = 'canvas-img heightpr';
+                        }
+                        showFrame(frameIndex);
+                    }
+                }
+            }
+            // 显示相框
+            function showFrame(idnex) {
+                // 个性化相框的数据
+                var data = [{
+                    index: 1,
+                    x: 104,
+                    y: 160,
+                    width: 540,
+                    height: 304
+                }, {
+                    index: 2,
+                    x: 104,
+                    y: 160,
+                    width: 540,
+                    height: 304
+                }, {
+                    index: 3,
+                    x: 104,
+                    y: 160,
+                    width: 540,
+                    height: 304
+                }, {
+                    index: 4,
+                    x: 104,
+                    y: 160,
+                    width: 540,
+                    height: 304
+                }, {
+                    index: 5,
+                    x: 104,
+                    y: 160,
+                    width: 540,
+                    height: 304
+                }, {
+                    index: 6,
+                    x: 0,
+                    y: 150,
+                    width: 640,
+                    height: 360
+                }, {
+                    index: 7,
+                    x: 12,
+                    y: 150,
+                    width: 640,
+                    height: 360
+                }, {
+                    index: 8,
+                    x: 39,
+                    y: 148,
+                    width: 640,
+                    height: 360
+                }, {
+                    index: 9,
+                    x: 0,
+                    y: 160,
+                    width: 640,
+                    height: 360
+                }, {
+                    index: 10,
+                    x: 20,
+                    y: 165,
+                    width: 640,
+                    height: 360
+                }];
+                var frame1 = new Image();
+                var filling = new Image();
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+                var curr = data[idnex - 1];
+                frame1.onload = function () {
+                    canvas.width = frame1.width;
+                    canvas.height = frame1.height;
+                    loadCanvas();
+                };
+                filling.onload = function () {
+                    loadCanvas();
+                };
+                //        filling.src = 'img/filling.jpg';
+                filling.src = atob(decodeURIComponent(urlArgs.pic));
+                if (idnex <= 5) {
+                    frame1.src = 'img/frame' + idnex + '.jpg';
+                } else if (idnex <= 10) {
+                    frame1.src = 'img/frame' + (idnex - 5) + '.png';
+                    if ((idnex - 5) === 2) {
+                        frame1.style.height = parseInt(height * 660 / 660, 10) + 'px';
+                    }
+                }
+                // 合成相框
+                function loadCanvas() {
+                    context.drawImage(frame1, 0, 0);
+                    context.drawImage(filling, curr.x, curr.y, curr.width, curr.height);
+                    canvasImage.src = canvas.toDataURL('image/png');
+                    if (frameIndex === 9 || frameIndex === 8 || frameIndex === 10) {
+                        canvasImage.className = 'canvas-img widthper';
+                        canvasImage.style.display = 'inline-block';
+                    } else {
+                        canvasImage.className = 'canvas-img heightpr';
+                        canvasImage.style.display = 'inline-block';
+                    }
+                }
+            }
+            // 获取url的参数
+            function getUrlArgs() {
+                var url = location.search.substr(1);
+                // var URL = 'http://robokit.baidu.com/durobot/pages/photo/index.html?pic=aHR0cDovL3JvYm9raXQuYmFpZHUuY29tL2R1cm9ib3QvcHJveHkvaGlwaG90b3MvZHVyb2JvdF9zZXJ2aWNlL3BpYy9pdGVtLzlmNTEwZmIzMGYyNDQyYTcwZmZhY2VkMGRkNDNhZDRiZDAxMzAyY2EuanBn&randomImg=37&position_tag=&pd=xiongan';
+                // var url = URL.split('?')[1];
+                var obj = {};
+                if (url.length > 0) {
+                    var args = url.split('&');
+                    args.forEach(function (item) {
+                        var temp = item.split('=');
+                        obj[temp[0]] = temp[1];
+                    });
+                    return obj;
+                }
+                return null;
+            }
+            // 产生随机数
+            function getRam(minNum, maxNum) {
+                return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+            }
+        };
+</script>
+</body>
+</html>
